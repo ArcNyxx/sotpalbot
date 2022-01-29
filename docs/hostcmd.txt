@@ -1,0 +1,73 @@
+Game Control
+========================================
+
+start
+----------------------------------------
+Start the game of SOTPAL, creating a new game state for the guild
+
+
+end
+----------------------------------------
+End the game of SOTPAL, removing any saved game state for the guild
+
+
+article
+----------------------------------------
+Start a round of SOTPAL by randomly selecting any of the submitted articles
+
+
+guess
+----------------------------------------
+End a round of SOTPAL by guessing the player who submitted the article
+
+player (user, required)
+The player who submitted the article
+
+
+Player Control
+========================================
+
+trust
+----------------------------------------
+Toggle host permissions for a player, temporarily or permanently
+
+player (user, required)
+The player whose permissions to toggle
+
+perm (bool)
+Whether to toggle permissions in the context of the game state or permanently
+
+
+untrust
+----------------------------------------
+Toggle submission permissions for a player, temporarily or permanently
+
+player (user, required)
+The player whose permissions to toggle
+
+perm (bool)
+Whether to toggle permissions in the context of the game state or permanently
+
+
+Article Control
+========================================
+
+remove
+----------------------------------------
+Remove an article from the list
+
+article (string, required)
+The article to remove from the list
+
+print (bool)
+Whether to print the player who submitted the article
+
+
+print
+----------------------------------------
+Print the list of articles
+
+
+clear
+----------------------------------------
+Clear the list of articles

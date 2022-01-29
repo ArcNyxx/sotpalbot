@@ -1,0 +1,14 @@
+Article Control
+========================================
+
+submit
+----------------------------------------
+Submit an article to the list
+
+article (string, required)
+The article to submit to the list
+
+
+remove
+----------------------------------------
+Remove an article from the list
