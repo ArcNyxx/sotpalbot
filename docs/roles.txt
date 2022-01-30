@@ -1,13 +1,10 @@
-Roles
+Player
 ========================================
-
-player
-----------------------------------------
 Anyone who has submitted an article
-Cannot have [SOTPAL Banned] role or be [banned]
+Cannot have [SOTPAL Untrusted] role
 
 
-host
-----------------------------------------
-The host of the current round
-Must have [SOTPAL Trusted] role or be [trusted]
+Host
+========================================
+The host of the current round, can run privileged commands
+Must have [SOTPAL Trusted] role

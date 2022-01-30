@@ -39,6 +39,8 @@ func main() {
 	}
 	defer session.Close()
 
+	rand.Seed(time.Now().UnixNano())
+
 	channel := make(chan os.Signal)
 	signal.Notify(channel, os.Interrupt)
 	<-channel

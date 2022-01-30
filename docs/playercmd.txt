@@ -1,16 +1,36 @@
-Article Control
+Remove
 ========================================
-
-submit
-----------------------------------------
-Submit an article to the list
+Remove an article from the list
 
 Parameters
 --------------------
 article (string, required)
+The article to remove from the list
+
+print (bool)
+Whether to print the player who submitted the article
+
+
+print
+========================================
+Print the list of articles
+
+
+clear
+========================================
+Clear the list of articles
+
+
+Submit
+========================================
+Submit an article to the list, overwriting any previous submission
+
+Parameters
+--------------------
+Article (string, required)
 The article to submit to the list
 
 
-remove
-----------------------------------------
+Remove
+========================================
 Remove an article from the list

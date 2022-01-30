@@ -35,47 +35,6 @@ var commands = []*dgo.ApplicationCommand{
 	},
 
 	{
-		Name:        "trust",
-		Description: "Toggle host permissions for a player, " +
-			"temporarily or permanently",
-		Options:     []*dgo.ApplicationCommandOption{
-			{
-				Type:        dgo.ApplicationCommandOptionUser,
-				Name:        "player",
-				Description: "The player whose permissions to toggle",
-				Required:    true
-			},
-			{
-				Type:        dgo.ApplicationCommandOptionBool,
-				Name:        "perm",
-				Description: "Whether to toggle permissions in the context " +
-					"of the game state or permanently",
-				Required:    false
-			},
-		},
-	},
-	{
-		Name:        "untrust",
-		Description: "Toggle submission permissions for a player, " +
-			"temporarily or permanently",
-		Options:     []*dgo.ApplicationCommandOption{
-			{
-				Type:        dgo.ApplicationCommandOptionUser,
-				Name:        "player",
-				Description: "The player whose permissions to toggle",
-				Required:    true,
-			},
-			{
-				Type:        dgo.ApplicationCommandOptionBool,
-				Name:        "perm",
-				Description: "Whether to toggle permissions in the context " +
-					"of the game or permanently",
-				Required:    false,
-			},
-		},
-	},
-
-	{
 		Name:        "submit",
 		Description: "Submit an article to the list",
 		Options:     []*dgo.ApplicationCommandOption{

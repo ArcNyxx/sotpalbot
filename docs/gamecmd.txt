@@ -1,0 +1,64 @@
+Start
+========================================
+Start the game of SOTPAL
+
+Requirements
+--------------------
+No actively running game
+Created "SOTPAL Trusted" and "SOTPAL Untrusted" roles
+Caller has "SOTPAL Trusted" role
+
+Function
+--------------------
+Creates a new game state
+
+
+End
+========================================
+End the game of SOTPAL
+
+Requirements
+--------------------
+Actively running game
+Caller has "SOTPAL Trusted" role
+
+Function
+--------------------
+Clears game state
+
+
+Article
+========================================
+Start a round of SOTPAL
+
+Requirements
+--------------------
+Actively running game
+Caller has "SOTPAL Trusted" role
+No actively running round
+At least 2 articles submitted
+Caller has no article submitted
+
+Function
+--------------------
+Randomly selects an article and sets up round state
+
+
+Guess
+========================================
+End a round of SOTPAL
+
+Requirements
+--------------------
+Actively running game
+Caller has "SOTPAL Trusted" role
+Actively running round
+
+Parameters
+--------------------
+Player (user, required)
+The player who is guessed to have submitted the article
+
+Function
+--------------------
+Reveal who submitted the article and clear round state

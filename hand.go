@@ -13,16 +13,15 @@ type State struct {
 
 	TrustedRole    string
 	UntrustedRole  string
-
-	TrustedUsers   []string
-	UntrustedUsers []string
 }
 
 var (
 	state = make(map[string]State)
 
 	handlers = map[string]func(ss *dgo.Session, in *dgo.InteractionCreate){
-		"start": start,
-		"end":   end,
+		"start":   start,
+		"end":     end,
+		"article": article,
+		"guess":   guess,
 	}
 )
