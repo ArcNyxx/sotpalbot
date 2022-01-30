@@ -7,28 +7,26 @@ import (
 var commands = []*dgo.ApplicationCommand{
 	{
 		Name:        "start",
-		Description: "Start the game of SOTPAL, " +
-			"creating a new game state for the guild",
+		Description: "Start the game of SOTPAL.",
 	},
 	{
 		Name:        "end",
-		Description: "End the game of SOTPAL, " +
-			"removing any saved game state for the guild",
+		Description: "End the game of SOTPAL."
 	},
 	{
 		Name:        "article",
 		Description: "Start a round of SOTPAL by randomly selecting " +
-			"any of the submitted articles",
+			"any of the submitted articles.",
 	},
 	{
 		Name:        "guess",
 		Description: "End a round of SOTPAL by guessing the player" +
-			"who submitted the article",
+			"who submitted the article.",
 		Options:     []*dgo.ApplicationCommandOption{
 			{
 				Type:        dgo.ApplicationCommandOptionUser,
 				Name:        "player",
-				Description: "The player who submitted the article",
+				Description: "The guessed player who submitted the article",
 				Required:    true
 			},
 		},

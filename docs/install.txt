@@ -1,0 +1,28 @@
+Install
+========================================
+To install the SOTPAL Discord bot, clone the source code from the GitHub
+repository and change into the directory made:
+
+	git clone https://github.com/fearlessdoggo21/sotpal
+	cd sotpal
+
+After Go has been installed, you can build and run the bot all in one command.
+Note that the Discord bot token is handled by a command line argument:
+
+	go run main.go [TOKEN]
+
+
+Configuration
+--------------------
+Some strings, such as those containing the roles used by SOTPAL to determine
+privilege ("SOTPAL Trusted", "SOTPAL Untrusted"), are unique throughout the
+entire source code and repository in general. To change these, a simple search
+and replace command would suffice:
+
+	sed 's/SOTPAL Trusted/Trusted Role/g' *.go
+	sed 's/SOTPAL Untrusted/Untrusted Role/g' *.go
+
+Alternatively, the source code is designed to be very simple and
+straightforward with descriptions for each function in docs/. Therefore,
+editing the source code to slightly configure it is not out of the question. It
+is expected that any additional logging be added this way.

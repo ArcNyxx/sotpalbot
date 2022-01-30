@@ -1,0 +1,43 @@
+.TH "sotpalbot" 1 "January 30, 2022"
+.SH NAME
+sotpalbot \- SOTPAL Discord Bot
+.SH SYNOPSIS
+\fBsotpalbot\fR [\fItoken\fR]
+.SH DESCRIPTION
+sotpalbot manages games of "Some of These People are Lying".  The game consists
+of a host and multiple players, all of which have selected, read, and secretely
+submitted Wikipedia articles.  An article is selected at random to start each
+round, and the host must guess who submitted the article.  To do this, they ask
+each player a series of questions or, alternatively, listen to a description
+from each player about the chosen subject.
+.PP
+The game operates based on a game/round system, whereby one game can be started
+per guild at a time, then one round can be started by a host once enough
+articles have been submitted.  Multiple game/round expansion is a possible
+addition with the present code architecture.
+.PP
+Command permissions are based on a couple of roles, "SOTPAL Trusted" and
+"SOTPAL Untrusted", which act as the control units for game moderation.  An
+expansion can be added which allows for game state privilege overrides.
+.SH USAGE
+Commands are issued via registered Application Commands \- commands within a
+guild prefixed by a slash. The following are a list of all commands:
+.SS Start
+Start a game of SOTPAL.
+.SS End
+End a game of SOTPAL.
+.SS Article
+Start a round of SOTPAL by randomly selecting an article.
+.SS Guess
+End a round of SOTPAL by guessing who submitted the article.
+.SS Submit
+Submit an article.
+.SS Remove
+Remove an article.
+.SS Print
+Print out the submitted articles.
+.SS Clear
+Clear the list of submitted articles.
+.SH BUGS
+Any articles submitted by users who are later untrusted remain in the submitted
+list.
