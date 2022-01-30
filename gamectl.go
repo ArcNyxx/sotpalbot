@@ -7,7 +7,7 @@ import (
 	dgo "github.com/bwmarrin/discordgo"
 )
 
-func start(ss *dgo.Session, in *dgo.InteractionCreate) {
+func startcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 	if _, ok := state[in.GuildID]; ok {
 		ss.InteractionRespond(in.Interaction, &dgo.InteractionResponse{
 			Type: InteractionResponseChannelMessageWithSource,
@@ -120,7 +120,7 @@ func article(ss *dgo.Session, in *dgo.InteractionCreate) {
 		})
 	}
 
-	for key, _ := range state.Submissions {
+	for key, _ := range state[in.GuildID].Submissions {
 		if key == in.Member.User.ID {
 			ss.InteractionResponse(in.Interaction, &dgo.InteractionResponse{
 				Type: InteractionResponseChannelMessageWithSource,
@@ -137,12 +137,12 @@ func article(ss *dgo.Session, in *dgo.InteractionCreate) {
 	mentionString := ""
 	state[in.GuildID].Host = in.Member.User.ID
 
-	random := rand.Intn(len(state.Submissions))
-	for key, value := range state.Submissions {
+	random := rand.Intn(len(state[in.GuildID].Submissions))
+	for key, value := range state[in.GuildID].Submissions {
 		if random == 0 {
 			state[in.GuildID].Player  = key
 			state[in.GuildID].Article = value
-			delete(state, key)
+			delete(state[in.GuildID].Submissions, key)
 		}
 		
 		mentionString += "<@" + key + ">, "
@@ -162,11 +162,6 @@ func article(ss *dgo.Session, in *dgo.InteractionCreate) {
 func guess(ss *dgo.Session, in *dgo.InteractionCreate) {
 	if _, ok := state[in.GuildID]; !ok {
 		ss.InteractionResponse(in.Interaction, &GameNotRunning)
-		return
-	}
-
-	if !isTrusted(&in.Member, true) {
-		ss.InteractionResponse(in.Interaction, &NonTrustedUser)
 		return
 	}
 

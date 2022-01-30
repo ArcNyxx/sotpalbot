@@ -8,9 +8,17 @@ No actively running game
 Created "SOTPAL Trusted" and "SOTPAL Untrusted" roles
 Caller has "SOTPAL Trusted" role
 
+Outcomes
+--------------------
+A game of SOTPAL is currently active.
+The required "SOTPAL Trusted" and "SOTPAL Untrusted" roles do not exist.
+You are not a trusted user (lacking the "SOTPAL Trusted" role).
+
+@CALLER has started a new game of SOTPAL!
+
 Function
 --------------------
-Creates a new game state
+Create a new game state
 
 
 End
@@ -22,9 +30,16 @@ Requirements
 Actively running game
 Caller has "SOTPAL Trusted" role
 
+Outcomes
+--------------------
+A game of SOTPAL is not currently active.
+You are not a trusted user (lacking the "SOTPAL Trusted" role).
+
+@CALLER has ended the game of SOTPAL!
+
 Function
 --------------------
-Clears game state
+Clear game state
 
 
 Article
@@ -39,9 +54,21 @@ No actively running round
 At least 2 articles submitted
 Caller has no article submitted
 
+Outcomes
+--------------------
+A game of SOTPAL is not currently active.
+You are not a trusted user (lacking the "SOTPAL Trusted" role).
+A round of SOTPAL is currently active.
+Fewer than two players are currently available.
+You cannot submit an article and host a game. Please remove your article and
+try again.
+
+@CALLER has started a new round of SOTPAL! The article is "ARTICLE" and the
+players are @PLAYERS.
+
 Function
 --------------------
-Randomly selects an article and sets up round state
+Randomly select an article and set up round state
 
 
 Guess
@@ -58,6 +85,17 @@ Parameters
 --------------------
 Player (user, required)
 The player who is guessed to have submitted the article
+
+Outcomes
+--------------------
+A game of SOTPAL is not currently active.
+You are not a trusted user (lacking the "SOTPAL Trusted" role).
+A round of SOTPAL is not currently active.
+You are not the host of the current round of SOTPAL.
+
+@CALLER guessed that @PLAYER submitted the article "ARTICLE" and was correct!
+@CALLER guessed that @PLAYER submitted the article "ARTICLE" but it was actually
+@PLAYER!
 
 Function
 --------------------

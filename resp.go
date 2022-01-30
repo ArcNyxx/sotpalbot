@@ -16,8 +16,8 @@ var (
 	NonTrustedUser = dgo.InteractionResponse{
 		Type: InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
-			Content: "You are not a trusted user (lacking \"SOTPAL Trusted\" " +
-				"role or trusted privilege for specific commands).",
+			Content: "You are not a trusted user (lacking \"SOTPAL " +
+				"Trusted\" role) and thus you may not run this command.",
 			Flags:   1 << 6,
 		},
 	}

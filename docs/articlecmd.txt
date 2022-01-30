@@ -1,36 +1,107 @@
-Remove
-========================================
-Remove an article from the list
-
-Parameters
---------------------
-article (string, required)
-The article to remove from the list
-
-print (bool)
-Whether to print the player who submitted the article
-
-
-print
-========================================
-Print the list of articles
-
-
-clear
-========================================
-Clear the list of articles
-
-
 Submit
 ========================================
-Submit an article to the list, overwriting any previous submission
+Submit an article
+
+Requirements
+--------------------
+Actively running game
+Caller does not have "SOTPAL Untrusted" role
 
 Parameters
 --------------------
 Article (string, required)
 The article to submit to the list
 
+Outcomes
+--------------------
+A game of SOTPAL is not currently active.
+You are an untrusted user (having the "SOTPAL Untrusted" role).
+
+You have submitted "ARTICLE", overwriting "ARTICLE".
+You have submitted "ARTICLE".
+
+Function
+--------------------
+Add to the list of submitted articles
+
 
 Remove
 ========================================
 Remove an article from the list
+
+Requirements
+--------------------
+Actively running game
+Caller does not have the "SOTPAL Untrusted" role
+Caller has submitted an article
+
+Caller has "SOTPAL Trusted" role
+
+Parameters
+--------------------
+Article (string)
+The article to remove from the list, defaults to own article
+
+Untrust (bool)
+Whether the untrust the submitter of the article
+
+Outcomes
+--------------------
+A game of SOTPAL is not currently active.
+
+You are an untrusted user (having the "SOTPAL Untrusted" role).
+You have not submitted an article.
+
+You have removed your own article "ARTICLE".
+
+You are not a trusted user (lacking the "SOTPAL Trusted" role).
+"ARTICLE" is not the name of a submitted article.
+
+@CALLER has removed the article "ARTICLE".
+@CALLER has removed the article "ARTICLE" and untrusted @PLAYER.
+
+Function
+--------------------
+Remove from the list of submitted articles
+
+
+Print
+========================================
+Print the list of articles
+
+Requirements
+--------------------
+Actively running game
+A nonzero number of submitted articles
+
+Outcomes
+--------------------
+A game of SOTPAL is not currently active.
+No articles have been submitted.
+
+@CALLER has requested the current article list: "ARTICLES".
+
+Function
+--------------------
+Print the list of articles
+
+
+Clear
+========================================
+Clear the list of articles
+
+Requirements
+--------------------
+Actively running game
+A nonzero number of submitted articles
+
+Outcomes
+--------------------
+A game of SOTPAL is not currently active.
+No articles have been submitted.
+
+@CALLER has cleared the list of submitted articles.
+
+Function
+--------------------
+Clear the list of articles
