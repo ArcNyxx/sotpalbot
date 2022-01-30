@@ -5,11 +5,37 @@ start
 ----------------------------------------
 Start the game of SOTPAL, creating a new game state for the guild
 
+Outcomes
+--------------------
+A game is already running (nothing)
+A game of SOTPAL is already running (ephemeral)
+
+The "SOTPAL Trusted" role does not exist (nothing)
+The "SOTPAL Trusted" role does not exist (ephemeral)
+
+The called does not have the "SOTPAL Trusted" role (nothing)
+You do not have the "SOTPAL Trusted" role (ephemeral)
+
+Accepted (create game state)
+@caller has started a new game of SOTPAL
 
 end
 ----------------------------------------
 End the game of SOTPAL, removing any saved game state for the guild
 
+Outcomes
+--------------------
+No game is running (nothing)
+A game of SOTPAL is not running (ephemeral)
+
+The "SOTPAL Trusted" role does not exist (nothing)
+The "SOTPAL Trusted" role does not exist (ephemeral)
+
+The called does not have the "SOTPAL Trusted" role (nothing)
+You do not have the "SOTPAL Trusted" role (ephemeral)
+
+Accepted (destroyed game state)
+@caller has ended the game of SOTPAL
 
 article
 ----------------------------------------
@@ -20,6 +46,8 @@ guess
 ----------------------------------------
 End a round of SOTPAL by guessing the player who submitted the article
 
+Parameters
+--------------------
 player (user, required)
 The player who submitted the article
 
@@ -29,24 +57,22 @@ Player Control
 
 trust
 ----------------------------------------
-Toggle host permissions for a player, temporarily or permanently
+Toggle temporary host permissions for a player
 
+Parameters
+--------------------
 player (user, required)
 The player whose permissions to toggle
-
-perm (bool)
-Whether to toggle permissions in the context of the game state or permanently
 
 
 untrust
 ----------------------------------------
-Toggle submission permissions for a player, temporarily or permanently
+Toggle temporary submission permissions for a player
 
+Parameters
+--------------------
 player (user, required)
 The player whose permissions to toggle
-
-perm (bool)
-Whether to toggle permissions in the context of the game state or permanently
 
 
 Article Control
@@ -56,6 +82,8 @@ remove
 ----------------------------------------
 Remove an article from the list
 
+Parameters
+--------------------
 article (string, required)
 The article to remove from the list
 

@@ -5,6 +5,8 @@ submit
 ----------------------------------------
 Submit an article to the list
 
+Parameters
+--------------------
 article (string, required)
 The article to submit to the list
 
