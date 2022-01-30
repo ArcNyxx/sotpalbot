@@ -1,0 +1,5 @@
+sotpalbot
+========================================
+A Discord bot to handle games of "Some of These People are Lying."
+See docs/ for general information, documentation, and usage descriptions.
+This project is written using Go and DiscordGo.
