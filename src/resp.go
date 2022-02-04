@@ -30,3 +30,19 @@ var (
 			Flags:   1 << 6,
 		},
 )
+
+func resp(content string, ephemeral bool) dgo.InteractionResponse {
+	if ephemeral {
+		flags = 1 << 6
+	} else {
+		flags = 0
+	}
+
+	return dgo.InteractionResponse{
+		Type: InteractionResponseChannelMessageWithSource,
+		Data: &dgo.InteractionResponseData{
+			Content: content,
+			Flags:   flags,
+		},
+	}
+}
