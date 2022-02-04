@@ -21,3 +21,12 @@ func isUntrusted(member *dgo.Member) bool {
 	}
 	return false
 }
+
+func isPlayer(ID string, guildID string) bool {
+	for key, _ := range state[guildID].Submissions {
+		if key == ID {
+			return true
+		}
+	}
+	return false
+}

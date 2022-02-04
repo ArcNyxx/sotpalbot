@@ -44,7 +44,7 @@ Clear game state
 
 Article
 ========================================
-Start a round of SOTPAL
+Start a round of SOTPAL by randomly selecting any of the submitted articles
 
 Requirements
 --------------------
@@ -73,7 +73,7 @@ Randomly select an article and set up round state
 
 Guess
 ========================================
-End a round of SOTPAL
+End a round of SOTPAL by guessing the player who submitted the article
 
 Requirements
 --------------------
@@ -92,10 +92,11 @@ A game of SOTPAL is not currently active.
 You are not a trusted user (lacking the "SOTPAL Trusted" role).
 A round of SOTPAL is not currently active.
 You are not the host of the current round of SOTPAL.
+@PLAYER is not playing this round.
 
 @CALLER guessed that @PLAYER submitted the article "ARTICLE" and was correct!
-@CALLER guessed that @PLAYER submitted the article "ARTICLE" but it was actually
-@PLAYER!
+@CALLER guessed that @PLAYER submitted the article "ARTICLE", but it was
+actually @PLAYER!
 
 Function
 --------------------

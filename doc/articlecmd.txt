@@ -1,6 +1,6 @@
 Submit
 ========================================
-Submit an article
+Submit an article to the list
 
 Requirements
 --------------------
@@ -79,7 +79,7 @@ Outcomes
 A game of SOTPAL is not currently active.
 No articles have been submitted.
 
-@CALLER has requested the current article list: "ARTICLES".
+@CALLER has requested the list of submitted articles: "ARTICLES".
 
 Function
 --------------------

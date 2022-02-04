@@ -35,9 +35,16 @@ Submit an article.
 .SS Remove
 Remove an article.
 .SS Print
-Print out the submitted articles.
+Print out the list of submitted articles.
 .SS Clear
 Clear the list of submitted articles.
 .SH BUGS
 Any articles submitted by users who are later untrusted remain in the submitted
-list.
+list.  To avoid this, any users untrusted during the game should be untrusted
+using the Remove command's Untrust option.  A race condition may still occur
+where a user gets an article in immediately before they are banned.
+.SH DIRECTION
+As the Discord API stablises, the system of command permissions will be used
+rather than the current checks.
+.SH AUTHOR
+FearlessDoggo21

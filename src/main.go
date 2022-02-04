@@ -2,8 +2,10 @@ package main
 
 import (
 	"log"
-	"signal"
 	"os"
+	"os/signal"
+	"math/rand"
+	"time"
 
 	dgo "github.com/bwmarrin/discordgo"
 )
@@ -44,5 +46,5 @@ func main() {
 	channel := make(chan os.Signal)
 	signal.Notify(channel, os.Interrupt)
 	<-channel
-	fmt.Println("sotpal: exiting")
+	log.Println("sotpal: exiting")
 }

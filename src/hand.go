@@ -19,9 +19,14 @@ var (
 	state = make(map[string]State)
 
 	handlers = map[string]func(ss *dgo.Session, in *dgo.InteractionCreate){
-		"start":   start,
-		"end":     end,
-		"article": article,
-		"guess":   guess,
+		"start":   startcmd,
+		"end":     endcmd,
+		"article": articlecmd,
+		"guess":   guesscmd,
+
+		"submit":  submitcmd,
+		"remove":  removecmd,
+		"print":   printcmd,
+		"clear":   clearcmd,
 	}
 )
