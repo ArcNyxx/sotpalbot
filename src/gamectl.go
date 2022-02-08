@@ -156,9 +156,8 @@ func guesscmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 	guess = in.ApplicationCommandData().Options[0].UserValue(nil).ID
 	if guess == state[in.GuildID].Player {
 		content := "<@" + state[in.GuildId].Host + "> guessed that " +
-			"<@" + state[in.GuildID].Player + "> submitted the " +
-			"article \"" + state[in.GuildID].Article + "\" and " +
-			"was correct!"
+			"<@" + guess + "> submitted the article \"" + 
+			state[in.GuildID].Article + "\" and was correct!"
 	} else {
 		if !isPlayer(guess, in.GuildID) {
 			ss.InteractionRespond(in.Interaction, resp(
@@ -167,9 +166,10 @@ func guesscmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 			))
 			return
 		}
-		content := "<@" + state[in.GuildID].Host + "> guessed that <@" +
-			user + "> submitted the article \"" + state[in.GuildID].Article +
-			"\", but it was actually <@" + state[in.GuildID].Article + ">!"
+		content := "<@" + state[in.GuildID].Host + "> guessed that " +
+			"<@" + guess + "> submitted the article \"" +
+			state[in.GuildID].Article + "\", but it was " +
+			"actually <@" + state[in.GuildID].Article + ">!"
 	}
 
 	state[in.GuildID].Host = ""

@@ -39,17 +39,55 @@ func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if len(i.ApplicationCommandData().Options) == 1 {
-		if !isTrusted(&in.Member) {
-			ss.InteractionResponse(in.Interaction, &NonTrustedUser)
+	if len(i.ApplicationCommandData().Options) < 1 {
+		user := in.Member.User.ID
+		if isUntrusted(user) {
+			ss.InteractionRespond(in.Interaction, &UntrustedUser)
 			return
 		}
-		user := in.ApplicationCommandData().Options[0].UserValue(nil).ID
-	} else {
-		user := in.Member.User.ID
+
+		if _, ok := state[in.GuildID].Submissions[user]; !ok {
+			ss.InteractionRespond(in.Interaction, resp(
+				"You have not submitted an article.", true
+			)
+			return
+		}
+
+		article := state[in.GuildID].Submissions[user]
+		delete(state[in.GuildID].Submissions, user)
+		ss.InteractionRespond(in.Interaction, resp(
+			"You have removed your own article \"" + article +
+			"\".", true
+		)
+		return
 	}
 
+	if !isTrusted(&in.Member) {
+		ss.InteractionResponse(in.Interaction, &NonTrustedUser)
+		return
+	}
 	
+	article := in.ApplicationCommandData().Options[0].StringValue()
+	untrust := in.ApplicationCommandData().Options[1].BoolValue()
+
+	if _, ok := state[in.GuildID].Submissions[article]; ok {
+		delete(state[in.GuildID].Submissions, article)
+		if untrust {
+			ss.GuildMemberRoleAdd
+		} else {
+
+		}
+	}
+
+	for _, article := range state[in.GuildID].Submissions {
+		if article == articlerm {
+			
+		}
+	}
+	ss.InteractionRespond(in.Interaction, resp(
+		"\"" + articlerm + "\" is not the name of a submitted " +
+		"article.", true
+	))
 }
 
 func printcmd(ss *dgo.Session, in *dgo.InteractionCreate) {

@@ -4,31 +4,51 @@ import (
 	dgo "github.com/bwmarrin/discordgo"
 )
 
-func isTrusted(member *dgo.Member) bool {
-	for _, role := range member.Roles {
-		if role == state[member.GuildID].trustedRole {
-			return true
+var (
+	GameNotRunning = dgo.InteractionResponse{
+		Type: InteractionResponseChannelMessageWithSource,
+		Data: &dgo.InteractionResponseData{
+			Content: "A game of SOTPAL is not currently active."
+			Flag:    1 << 6,
+		},
+	}
+
+	NonTrustedUser = dgo.InteractionResponse{
+		Type: InteractionResponseChannelMessageWithSource,
+		Data: &dgo.InteractionResponseData{
+			Content: "You are not a trusted user (lacking \"SOTPAL " +
+				"Trusted\" role).",
+			Flags:   1 << 6,
+		},
+	}
+
+	UntrustedUser = dgo.InteractionResponse{
+		Type: InteractionResponseChannelMessageWithSource,
+		Data: &dgo.InteractionResponseData{
+			Content: "You are an untrusted user (having the \"SOTPAL " +
+				"Untrusted\" role).",
+			Flags:   1 << 6,
+		},
+	}
+)
+
+func arrContains[Type comparable](search Type, array []Type) *Type {
+	for _, element := range array {
+		if element == search {
+			return &element
 		}
 	}
-	return false
+	return nil
 }
 
-func isUntrusted(member *dgo.Member) bool {
-	for _, role := range member.Roles {
-		if role == state[member.GuildID].untrustedRole {
-			return true
+func mapContains[Key comparable, Value comparable]
+	(search Value, source map[Key]Value) *Key {
+	for key, value := range source {
+		if value == search {
+			return &key
 		}
 	}
-	return false
-}
-
-func isPlayer(playerid string, guild string) bool {
-	for player, _ := range state[guild].Submissions {
-		if player == playerid {
-			return true
-		}
-	}
-	return false
+	return nil
 }
 
 func enumSubmissions(guild string, players bool) string {
@@ -50,4 +70,19 @@ func enumSubmissions(guild string, players bool) string {
 		i += 1
 	}
 	return ret
+}
+
+func resp(content string, ephemeral bool) dgo.InteractionResponse {
+	flags := 0
+	if ephemeral {
+		flags := 1 << 6
+	}
+
+	return dgo.InteractionResponse{
+		Type: InteractionResponseChannelMessageWithSource,
+		Data: &dgo.InteractionResponseData{
+			Content: content,
+			Flags:   flags,
+		},
+	}
 }
