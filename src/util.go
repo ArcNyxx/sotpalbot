@@ -6,15 +6,15 @@ import (
 
 var (
 	GameNotRunning = dgo.InteractionResponse{
-		Type: InteractionResponseChannelMessageWithSource,
+		Type: dgo.InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
-			Content: "A game of SOTPAL is not currently active."
-			Flag:    1 << 6,
+			Content: "A game of SOTPAL is not currently active.",
+			Flags:   1 << 6,
 		},
 	}
 
 	NonTrustedUser = dgo.InteractionResponse{
-		Type: InteractionResponseChannelMessageWithSource,
+		Type: dgo.InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
 			Content: "You are not a trusted user (lacking \"SOTPAL " +
 				"Trusted\" role).",
@@ -23,7 +23,7 @@ var (
 	}
 
 	UntrustedUser = dgo.InteractionResponse{
-		Type: InteractionResponseChannelMessageWithSource,
+		Type: dgo.InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
 			Content: "You are an untrusted user (having the \"SOTPAL " +
 				"Untrusted\" role).",
@@ -32,7 +32,7 @@ var (
 	}
 
 	NoSubmissions = dgo.InteractionResponse{
-		Type: InteractionResponseChannelMessageWithSource,
+		Type: dgo.InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
 			Content: "No articles have been submitted.",
 			Flags:   1 << 6,
@@ -49,8 +49,8 @@ func arrContains[Type comparable](search Type, array []Type) *Type {
 	return nil
 }
 
-func mapContains[Key comparable, Value comparable]
-	(search Value, source map[Key]Value) *Key {
+func mapContains[Key comparable, Value comparable](search Value,
+	source map[Key]Value) *Key {
 	for key, value := range source {
 		if value == search {
 			return &key
@@ -84,7 +84,7 @@ func mentionSubmit(submissions map[string]string, players bool) string {
 
 func resp(content string) dgo.InteractionResponse {
 	return dgo.InteractionResponse{
-		Type: InteractionResponseChannelMessageWithSource,
+		Type: dgo.InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
 			Content: content,
 		},
@@ -93,7 +93,7 @@ func resp(content string) dgo.InteractionResponse {
 
 func err(content string) dgo.InteractionResponse {
 	return dgo.InteractionResponse{
-		Type: InteractionResponseChannelMessageWithSource,
+		Type: dgo.InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
 			Content: content,
 			Flags:   1 << 6,

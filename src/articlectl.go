@@ -55,7 +55,7 @@ func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		ss.InteractionResponse(in.Interaction, &NonTrustedUser)
 		return
 	}
-	
+
 	article := in.ApplicationCommandData().Options[0].StringValue()
 	untrust := in.ApplicationCommandData().Options[1].BoolValue()
 
@@ -70,7 +70,7 @@ func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 				in.Member.User.ID, state.UntrustedRole); err != nil {
 				ss.InteractionRespond(in.Interaction, err(
 					"Unable to give <@" + player + "> the " +
-						"\"SOTPAL Untrusted\" role."
+						"\"SOTPAL Untrusted\" role."))
 			}
 		}
 		delete(state[in.GuildID].Submissions, player)

@@ -1,15 +1,15 @@
 Start
-========================================
+=====
 Start the game of SOTPAL
 
 Requirements
---------------------
+------------
 No actively running game
 Created "SOTPAL Trusted" and "SOTPAL Untrusted" roles
 Caller has "SOTPAL Trusted" role
 
 Outcomes
---------------------
+--------
 A game of SOTPAL is currently active.
 The required "SOTPAL Trusted" and "SOTPAL Untrusted" roles do not exist.
 You are not a trusted user (lacking the "SOTPAL Trusted" role).
@@ -17,37 +17,37 @@ You are not a trusted user (lacking the "SOTPAL Trusted" role).
 @CALLER has started a new game of SOTPAL!
 
 Function
---------------------
+--------
 Create a new game state
 
 
 End
-========================================
+===
 End the game of SOTPAL
 
 Requirements
---------------------
+------------
 Actively running game
 Caller has "SOTPAL Trusted" role
 
 Outcomes
---------------------
+--------
 A game of SOTPAL is not currently active.
 You are not a trusted user (lacking the "SOTPAL Trusted" role).
 
 @CALLER has ended the game of SOTPAL!
 
 Function
---------------------
+--------
 Clear game state
 
 
 Article
-========================================
+=======
 Start a round of SOTPAL by randomly selecting any of the submitted articles
 
 Requirements
---------------------
+------------
 Actively running game
 Caller has "SOTPAL Trusted" role
 No actively running round
@@ -55,7 +55,7 @@ At least 2 articles submitted
 Caller has no article submitted
 
 Outcomes
---------------------
+--------
 A game of SOTPAL is not currently active.
 You are not a trusted user (lacking the "SOTPAL Trusted" role).
 A round of SOTPAL is currently active.
@@ -67,27 +67,27 @@ try again.
 players are @PLAYERS.
 
 Function
---------------------
+--------
 Randomly select an article and set up round state
 
 
 Guess
-========================================
+=====
 End a round of SOTPAL by guessing the player who submitted the article
 
 Requirements
---------------------
+------------
 Actively running game
 Caller has "SOTPAL Trusted" role
 Actively running round
 
 Parameters
---------------------
+----------
 Player (user, required)
 The player who is guessed to have submitted the article
 
 Outcomes
---------------------
+--------
 A game of SOTPAL is not currently active.
 You are not a trusted user (lacking the "SOTPAL Trusted" role).
 A round of SOTPAL is not currently active.
@@ -99,5 +99,5 @@ You are not the host of the current round of SOTPAL.
 actually @PLAYER!
 
 Function
---------------------
+--------
 Reveal who submitted the article and clear round state

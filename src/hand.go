@@ -70,7 +70,7 @@ var commands = []*dgo.ApplicationCommand{
 				Required:    false,
 			},
 			{
-				Type:        dgo.ApplicationCommandOptionBool,
+				Type:        dgo.ApplicationCommandOptionBoolean,
 				Name:        "Untrust",
 				Description: "Whether to untrust the submitted of the article",
 				Required:    false,

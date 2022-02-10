@@ -1,5 +1,5 @@
 Install
-========================================
+=======
 To install the SOTPAL Discord bot, clone the source code from the GitHub
 repository and change into the directory made:
 
@@ -13,7 +13,7 @@ Note that the Discord bot token is handled by a command line argument:
 
 
 Configuration
---------------------
+-------------
 Some strings, such as those containing the roles used by SOTPAL to determine
 privilege ("SOTPAL Trusted", "SOTPAL Untrusted"), are unique throughout the
 entire source code and repository in general. To change these, a simple search

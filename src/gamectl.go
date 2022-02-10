@@ -63,8 +63,7 @@ func endcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		delete(state, ss.GuildID)
 		ss.InteractionRespond(in.Interaction, resp(
 			"<@" + in.Member.User.ID + "> has ended the game of " +
-			"SOTPAL!"
-		))
+			"SOTPAL!"))
 	}
 }
 

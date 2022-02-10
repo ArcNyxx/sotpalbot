@@ -2,23 +2,29 @@
 .SH NAME
 sotpalbot \- SOTPAL Discord Bot
 .SH SYNOPSIS
-\fBsotpalbot\fR [\fItoken\fR]
+.SY sotpalbot
+.I token
+.YS
 .SH DESCRIPTION
-sotpalbot manages games of "Some of These People are Lying".  The game consists
-of a host and multiple players, all of which have selected, read, and secretely
-submitted Wikipedia articles.  An article is selected at random to start each
-round, and the host must guess who submitted the article.  To do this, they ask
-each player a series of questions or, alternatively, listen to a description
-from each player about the chosen subject.
+.RB sotpalbot (1)
+manages games of "Some of These People are Lying".  The game consists of a host
+and multiple players, all of which have selected, read, and secretely submitted
+Wikipedia articles.  An article is selected at random to start each round, and
+the host must guess who submitted the article.  To do this, they ask each
+player a series of questions or, alternatively, listen to a description from
+each player about the chosen subject.
 .PP
 The game operates based on a game/round system, whereby one game can be started
 per guild at a time, then one round can be started by a host once enough
 articles have been submitted.  Multiple game/round expansion is a possible
 addition with the present code architecture.
 .PP
-Command permissions are based on a couple of roles, "SOTPAL Trusted" and
-"SOTPAL Untrusted", which act as the control units for game moderation.  An
-expansion can be added which allows for game state privilege overrides.
+Command permissions are based on a couple of roles,
+.RI """" "SOTPAL Trusted" """"
+and
+.RI """" "SOTPAL Untrusted" ""","
+which act as the control units for game moderation.  An expansion can be
+made which allows for game state privilege overrides.
 .SH USAGE
 Commands are issued via registered Application Commands \- commands within a
 guild prefixed by a slash. The following are a list of all commands:
@@ -47,4 +53,4 @@ where a user gets an article in immediately before they are banned.
 As the Discord API stablises, the system of command permissions will be used
 rather than the current checks.
 .SH AUTHOR
-FearlessDoggo21
+Written by FearlessDoggo21

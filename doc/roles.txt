@@ -1,10 +1,10 @@
 Player
-========================================
+======
 Anyone who has submitted an article
 Cannot have [SOTPAL Untrusted] role
 
 
 Host
-========================================
+====
 The host of the current round, can run privileged commands
 Must have [SOTPAL Trusted] role
