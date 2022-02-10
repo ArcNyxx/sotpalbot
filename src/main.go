@@ -23,8 +23,8 @@ func main() {
 	session.AddHandler(func(ss *dgo.Session, rd *dgo.Ready) {
 		log.Println("sotpal: bot session created")
 		for _, guild := range rd.Guilds {
-			_, err := ss.ApplicationCommandBulkOverwrite(guild.ID, commands)
-			if err != nil {
+			if _, err := ss.ApplicationCommandBulkOverwrite(
+				ss.State.User.ID, guild.ID, commands); err != nil {
 				log.Fatalln("sotpal: unable to register commands")
 			}
 		}

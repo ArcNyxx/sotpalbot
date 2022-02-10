@@ -62,7 +62,7 @@ func mapContains[Key comparable, Value comparable](search Value,
 func mentionSubmit(submissions map[string]string, players bool) string {
 	ret, i, length := "", 0, len(submissions)
 	for player, article := range submissions {
-		if player {
+		if players {
 			ret += "<@" + player + ">"
 		} else {
 			ret += "\"" + article + "\""
@@ -82,8 +82,8 @@ func mentionSubmit(submissions map[string]string, players bool) string {
 	return ret
 }
 
-func resp(content string) dgo.InteractionResponse {
-	return dgo.InteractionResponse{
+func resp(content string) *dgo.InteractionResponse {
+	return &dgo.InteractionResponse{
 		Type: dgo.InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
 			Content: content,
@@ -91,8 +91,8 @@ func resp(content string) dgo.InteractionResponse {
 	}
 }
 
-func err(content string) dgo.InteractionResponse {
-	return dgo.InteractionResponse{
+func err(content string) *dgo.InteractionResponse {
+	return &dgo.InteractionResponse{
 		Type: dgo.InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
 			Content: content,

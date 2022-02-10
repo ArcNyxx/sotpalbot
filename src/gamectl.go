@@ -2,7 +2,6 @@ package main
 
 import (
 	"math/rand"
-	"time"
 
 	dgo "github.com/bwmarrin/discordgo"
 )
@@ -14,12 +13,14 @@ func startcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if roles, err = ss.GuildRoles(in.GuildID); err != nil {
+	var roles []*dgo.Role
+	var ofs error
+	if roles, ofs = ss.GuildRoles(in.GuildID); ofs != nil {
 		ss.InteractionRespond(in.Interaction, err(
 			"Unable to get server roles."))
 		return
 	}
-	
+
 	var state State
 	for _, role := range roles {
 		if role.Name == "SOTPAL Trusted" {
@@ -57,10 +58,10 @@ func endcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if arrContains(state.TrustedRole, in.Member.Roles) == nil {
+	if arrContains(state[in.GuildID].TrustedRole, in.Member.Roles) == nil {
 		ss.InteractionRespond(in.Interaction, &NonTrustedUser)
 	} else {
-		delete(state, ss.GuildID)
+		delete(state, in.GuildID)
 		ss.InteractionRespond(in.Interaction, resp(
 			"<@" + in.Member.User.ID + "> has ended the game of " +
 			"SOTPAL!"))
@@ -73,7 +74,7 @@ func articlecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if arrContains(state.TrustedRole, in.Member.Roles) == nil {
+	if arrContains(state[in.GuildID].TrustedRole, in.Member.Roles) == nil {
 		ss.InteractionRespond(in.Interaction, &NonTrustedUser)
 		return
 	}
@@ -100,14 +101,15 @@ func articlecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 	cnt, random := 0, rand.Intn(len(state[in.GuildID].Submissions))
 	for player, article := range state[in.GuildID].Submissions {
 		if cnt == random {
-			state[in.GuildID].Player, state[in.GuildID].Article =
-				player, article
+			newstate := state[in.GuildID]
+			newstate.Player, newstate.Article, newstate.Host =
+				player, article, in.Member.User.ID
+			state[in.GuildID] = newstate
 			delete(state[in.GuildID].Submissions, player)
 			break
 		}
 		cnt++
 	}
-	state[in.GuildID].Host = in.Member.User.ID
 
 	ss.InteractionRespond(in.Interaction, resp(
 		"<@" + in.Member.User.ID + "> has started a new round of " +
@@ -122,7 +124,7 @@ func guesscmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if arrContains(state.TrustedRole, in.Member.Roles) == nil {
+	if arrContains(state[in.GuildID].TrustedRole, in.Member.Roles) == nil {
 		ss.InteractionRespond(in.Interaction, &NonTrustedUser)
 		return
 	}
@@ -140,12 +142,12 @@ func guesscmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 	}
 
 	guess := in.ApplicationCommandData().Options[0].UserValue(nil).ID
-	content := "<@" + state[in.GuildId].Host + "> guessed that <@" + guess +
+	content := "<@" + state[in.GuildID].Host + "> guessed that <@" + guess +
 		"> submitted the article \"" + state[in.GuildID].Article + "\""
 	if guess == state[in.GuildID].Player {
 		content += " and was correct!"
 	} else {
-		if _, ok := state[in.GuildID].Submissions; !ok {
+		if _, ok := state[in.GuildID].Submissions[guess]; !ok {
 			ss.InteractionRespond(in.Interaction, err(
 				"<@" + guess + "> is not playing in this round."))
 			return
@@ -153,7 +155,8 @@ func guesscmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		content += ", but it was actually <@" + state[in.GuildID].Player +
 			">!"
 	}
-	state[in.GuildID].Host, state[in.GuildID].Player,
-		state[in.GuildID].Article = "", "", ""
+	newstate := state[in.GuildID]
+	newstate.Player, newstate.Article, newstate.Host = "", "", ""
+	state[in.GuildID] = newstate
 	ss.InteractionRespond(in.Interaction, resp(content))
 }

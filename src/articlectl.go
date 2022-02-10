@@ -10,7 +10,7 @@ func submitcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if arrContains(state.TrustedRole, in.Member.Roles) == nil {
+	if arrContains(state[in.GuildID].TrustedRole, in.Member.Roles) == nil {
 		ss.InteractionRespond(in.Interaction, &UntrustedUser)
 		return
 	}
@@ -31,8 +31,8 @@ func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if len(i.ApplicationCommandData().Options) == 0 {
-		if arrContains(state.UntrustedRole, in.Member.Roles) == nil {
+	if len(in.ApplicationCommandData().Options) == 0 {
+		if arrContains(state[in.GuildID].UntrustedRole, in.Member.Roles) == nil {
 			ss.InteractionRespond(in.Interaction, &UntrustedUser)
 			return
 		}
@@ -51,8 +51,8 @@ func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if arrContains(state.TrustedRole, in.Member.Roles) == nil {
-		ss.InteractionResponse(in.Interaction, &NonTrustedUser)
+	if arrContains(state[in.GuildID].TrustedRole, in.Member.Roles) == nil {
+		ss.InteractionRespond(in.Interaction, &NonTrustedUser)
 		return
 	}
 
@@ -65,15 +65,15 @@ func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 			"article \"" + article + "\"."
 		if untrust {
 			content = content[:len(content) - 1] + " and " +
-				"untrusted <@" + player + ">"
-			if err := ss.GuildMemberRoleAdd(in.GuildID,
-				in.Member.User.ID, state.UntrustedRole); err != nil {
+				"untrusted <@" + *player + ">"
+			if ofs := ss.GuildMemberRoleAdd(in.GuildID, in.Member.User.ID,
+				state[in.GuildID].UntrustedRole); ofs != nil {
 				ss.InteractionRespond(in.Interaction, err(
-					"Unable to give <@" + player + "> the " +
+					"Unable to give <@" + *player + "> the " +
 						"\"SOTPAL Untrusted\" role."))
 			}
 		}
-		delete(state[in.GuildID].Submissions, player)
+		delete(state[in.GuildID].Submissions, *player)
 		ss.InteractionRespond(in.Interaction, resp(content))
 	} else {
 		ss.InteractionRespond(in.Interaction, err(
@@ -110,7 +110,9 @@ func clearcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	state[in.GuildID].Submissions = make(map[string]string)
+	newstate := state[in.GuildID]
+	newstate.Submissions = make(map[string]string)
+	state[in.GuildID] = newstate
 	ss.InteractionRespond(in.Interaction, resp(
 		"<@" + in.Member.User.ID + "> has cleared the list of " +
 			"submitted articles."))
