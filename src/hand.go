@@ -24,7 +24,7 @@ var commands = []*dgo.ApplicationCommand{
 	},
 	{
 		Name:        "end",
-		Description: "End the game of SOTPAL"
+		Description: "End the game of SOTPAL",
 	},
 	{
 		Name:        "article",
@@ -41,7 +41,7 @@ var commands = []*dgo.ApplicationCommand{
 				Name:        "Player",
 				Description: "The player who is guessed to have " +
 					"submitted the article",
-				Required:    true
+				Required:    true,
 			},
 		},
 	},

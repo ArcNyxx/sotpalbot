@@ -30,6 +30,14 @@ var (
 			Flags:   1 << 6,
 		},
 	}
+
+	NoSubmissions = dgo.InteractionResponse{
+		Type: InteractionResponseChannelMessageWithSource,
+		Data: &dgo.InteractionResponseData{
+			Content: "No articles have been submitted.",
+			Flags:   1 << 6,
+		},
+	}
 )
 
 func arrContains[Type comparable](search Type, array []Type) *Type {
@@ -51,38 +59,44 @@ func mapContains[Key comparable, Value comparable]
 	return nil
 }
 
-func enumSubmissions(guild string, players bool) string {
-	ret := ""
-	i, length := 0, len(state[guild].Submissions)
-	for player, article := range state[guild].Submissions {
-		if players {
+func mentionSubmit(submissions map[string]string, players bool) string {
+	ret, i, length := "", 0, len(submissions)
+	for player, article := range submissions {
+		if player {
 			ret += "<@" + player + ">"
 		} else {
 			ret += "\"" + article + "\""
 		}
 
-		if i != length - 1 {
+		if i != length - 1 && length != 2 {
 			ret += ", "
-			if i == length - 2 {
-				ret += "and "
-			}
 		}
-		i += 1
+		if i == length - 2 {
+			if length == 2 {
+				ret += " "
+			}
+			ret += "and "
+		}
+		i++
 	}
 	return ret
 }
 
-func resp(content string, ephemeral bool) dgo.InteractionResponse {
-	flags := 0
-	if ephemeral {
-		flags := 1 << 6
-	}
-
+func resp(content string) dgo.InteractionResponse {
 	return dgo.InteractionResponse{
 		Type: InteractionResponseChannelMessageWithSource,
 		Data: &dgo.InteractionResponseData{
 			Content: content,
-			Flags:   flags,
+		},
+	}
+}
+
+func err(content string) dgo.InteractionResponse {
+	return dgo.InteractionResponse{
+		Type: InteractionResponseChannelMessageWithSource,
+		Data: &dgo.InteractionResponseData{
+			Content: content,
+			Flags:   1 << 6,
 		},
 	}
 }

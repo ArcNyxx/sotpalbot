@@ -10,27 +10,19 @@ func submitcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if isUntrusted(in.Member) {
+	if arrContains(state.TrustedRole, in.Member.Roles) == nil {
 		ss.InteractionRespond(in.Interaction, &UntrustedUser)
 		return
 	}
 
 	article := in.ApplicationCommandData().Options[0].StringValue()
+	content := "You have set your article to \"" + article + "\"."
 	if _, ok := state[in.GuildID].Submissions[in.Member.User.ID]; ok {
-		content := "You have set your article to \"" + article + "\", overwriting \"" +
-		state[in.GuildID].Submissions[in.Member.User.ID] + "\"."
-	} else {
-		content := "You have set your article to \"" + article + "\"."
+		content = content[:len(content) - 1] + ", overwriting \"" +
+			state[in.GuildID].Submissions[in.Member.User.ID] + "\"."
 	}
 	state[in.GuildID].Submissions[in.Member.User.ID] = article
-
-	ss.InteractionRespond(in.Interaction, &dgo.InteractionResponse{
-		Type: InteractionResponseChannelMessageWithSource,
-		Data: &dgo.InteractionResponseData{
-			Content: content,
-			Flags:   1 << 6,
-		},
-	})
+	ss.InteractionRespond(in.Interaction, err(content))
 }
 
 func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
@@ -39,30 +31,27 @@ func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if len(i.ApplicationCommandData().Options) < 1 {
-		user := in.Member.User.ID
-		if isUntrusted(user) {
+	if len(i.ApplicationCommandData().Options) == 0 {
+		if arrContains(state.UntrustedRole, in.Member.Roles) == nil {
 			ss.InteractionRespond(in.Interaction, &UntrustedUser)
 			return
 		}
 
-		if _, ok := state[in.GuildID].Submissions[user]; !ok {
-			ss.InteractionRespond(in.Interaction, resp(
-				"You have not submitted an article.", true
-			)
+		if _, ok := state[in.GuildID].Submissions[in.Member.User.ID]; !ok {
+			ss.InteractionRespond(in.Interaction, err(
+				"You have not submitted an article."))
 			return
 		}
 
-		article := state[in.GuildID].Submissions[user]
-		delete(state[in.GuildID].Submissions, user)
-		ss.InteractionRespond(in.Interaction, resp(
-			"You have removed your own article \"" + article +
-			"\".", true
-		)
+		ss.InteractionRespond(in.Interaction, err(
+			"You have removed your own article \"" +
+			state[in.GuildID].Submissions[in.Member.User.ID] +
+			"\"."))
+		delete(state[in.GuildID].Submissions, in.Member.User.ID)
 		return
 	}
 
-	if !isTrusted(&in.Member) {
+	if arrContains(state.TrustedRole, in.Member.Roles) == nil {
 		ss.InteractionResponse(in.Interaction, &NonTrustedUser)
 		return
 	}
@@ -70,24 +59,27 @@ func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 	article := in.ApplicationCommandData().Options[0].StringValue()
 	untrust := in.ApplicationCommandData().Options[1].BoolValue()
 
-	if _, ok := state[in.GuildID].Submissions[article]; ok {
-		delete(state[in.GuildID].Submissions, article)
+	if player := mapContains(article, state[in.GuildID].Submissions);
+		player != nil {
+		content := "<@" + in.Member.User.ID + "> has removed the " +
+			"article \"" + article + "\"."
 		if untrust {
-			ss.GuildMemberRoleAdd
-		} else {
-
+			content = content[:len(content) - 1] + " and " +
+				"untrusted <@" + player + ">"
+			if err := ss.GuildMemberRoleAdd(in.GuildID,
+				in.Member.User.ID, state.UntrustedRole); err != nil {
+				ss.InteractionRespond(in.Interaction, err(
+					"Unable to give <@" + player + "> the " +
+						"\"SOTPAL Untrusted\" role."
+			}
 		}
+		delete(state[in.GuildID].Submissions, player)
+		ss.InteractionRespond(in.Interaction, resp(content))
+	} else {
+		ss.InteractionRespond(in.Interaction, err(
+			"\"" + article + "\" is not the name of a submitted " +
+			"article."))
 	}
-
-	for _, article := range state[in.GuildID].Submissions {
-		if article == articlerm {
-			
-		}
-	}
-	ss.InteractionRespond(in.Interaction, resp(
-		"\"" + articlerm + "\" is not the name of a submitted " +
-		"article.", true
-	))
 }
 
 func printcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
@@ -97,35 +89,14 @@ func printcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 	}
 
 	if len(state[in.GuildID].Submissions) == 0 {
-		ss.InteractionRespond(in.Interaction, &dgo.InteractionResponse{
-			Type: InteractionResponseChannelMessageWithSource,
-			Data: &dgo.InteractionResponseData{
-				Content: "No articles have been submitted.",
-				Flags:   1 << 6,
-			},
-		})
+		ss.InteractionRespond(in.Interaction, &NoSubmissions)
 		return
 	}
 
-	i, length := 0, len(state[in.GuildID].Submissions
-	articles := ""
-	for _, value := range state[in.GuildID].Submissions {
-		articles += "\"" + value + "\""
-		if i != length - 1 {
-			articles += ", "
-			if i == length - 2 {
-				articles += "and "
-			}
-		}
-	}
-
-	ss.InteractionRespond(in.Interaction, &dgo.InteractionResponse{
-		Type: InteractionResponseCHannelMessageWithSource,
-		Data: &dgo.InteractionResponseData{
-			Content: "<@" + in.Member.User.ID + "> has requested the list " +
-				"of submitted articles: " + articles,
-		},
-	})
+	ss.InteractionRespond(in.Interaction, resp(
+		"<@" + in.Member.User.ID + "> has requested the list of " +
+		"submitted articles: " +
+		mentionSubmit(state[in.GuildID].Submissions, false)))
 }
 
 func clearcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
@@ -135,22 +106,12 @@ func clearcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 	}
 	
 	if len(state[in.GuildID].Submissions) == 0 {
-		ss.InteractionRespond(in.Interaction, &dgo.InteractionResponse{
-			Type: InteractionResponseChannelMessageWithSource,
-			Data: &dgo.InteractionResponseData{
-				Content: "No articles have been submitted.",
-				Flags:   1 << 6,
-			},
-		})
+		ss.InteractionRespond(in.Interaction, &NoSubmissions)
 		return
 	}
 
 	state[in.GuildID].Submissions = make(map[string]string)
-	ss.InteractionRespond(in.Interaction, &dgo.InteractionResponse{
-		Type: InteractionResponseCHannelMessageWithSource,
-		Data: &dgo.InteractionResponseData{
-			Content: "<@" + in.Member.User.ID + "> has cleared "
-				"the list of submitted articles",
-		},
-	})
+	ss.InteractionRespond(in.Interaction, resp(
+		"<@" + in.Member.User.ID + "> has cleared the list of " +
+			"submitted articles."))
 }
