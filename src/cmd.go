@@ -38,7 +38,7 @@ var commands = []*dgo.ApplicationCommand{
 		Options:     []*dgo.ApplicationCommandOption{
 			{
 				Type:        dgo.ApplicationCommandOptionUser,
-				Name:        "Player",
+				Name:        "player",
 				Description: "The player who is guessed to have " +
 					"submitted the article",
 				Required:    true,
@@ -52,7 +52,7 @@ var commands = []*dgo.ApplicationCommand{
 		Options:     []*dgo.ApplicationCommandOption{
 			{
 				Type:        dgo.ApplicationCommandOptionString,
-				Name:        "Article",
+				Name:        "article",
 				Description: "The article to submit to the list",
 				Required:    true,
 			},
@@ -64,14 +64,14 @@ var commands = []*dgo.ApplicationCommand{
 		Options:     []*dgo.ApplicationCommandOption{
 			{
 				Type:        dgo.ApplicationCommandOptionString,
-				Name:        "Article",
+				Name:        "article",
 				Description: "The article to remove from the list, " +
 					"defaults to own article",
 				Required:    false,
 			},
 			{
 				Type:        dgo.ApplicationCommandOptionBoolean,
-				Name:        "Untrust",
+				Name:        "untrust",
 				Description: "Whether to untrust the submitted of the article",
 				Required:    false,
 			},

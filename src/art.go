@@ -10,7 +10,7 @@ func submitcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	if arrContains(state[in.GuildID].TrustedRole, in.Member.Roles) == nil {
+	if arrContains(state[in.GuildID].UntrustedRole, in.Member.Roles) != nil {
 		ss.InteractionRespond(in.Interaction, &UntrustedUser)
 		return
 	}
@@ -32,7 +32,7 @@ func removecmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 	}
 
 	if len(in.ApplicationCommandData().Options) == 0 {
-		if arrContains(state[in.GuildID].UntrustedRole, in.Member.Roles) == nil {
+		if arrContains(state[in.GuildID].UntrustedRole, in.Member.Roles) != nil {
 			ss.InteractionRespond(in.Interaction, &UntrustedUser)
 			return
 		}
@@ -96,7 +96,7 @@ func printcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 	ss.InteractionRespond(in.Interaction, resp(
 		"<@" + in.Member.User.ID + "> has requested the list of " +
 		"submitted articles: " +
-		mentionSubmit(state[in.GuildID].Submissions, false)))
+		mentionSubmit(state[in.GuildID].Submissions, false))) + "."
 }
 
 func clearcmd(ss *dgo.Session, in *dgo.InteractionCreate) {

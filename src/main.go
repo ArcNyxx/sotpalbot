@@ -12,23 +12,24 @@ import (
 
 func main() {
 	if len(os.Args[1:]) != 1 || os.Args[1] == "-h" || os.Args[1] == "--help" {
-		log.Fatalln("usage: sotpal [token]")
+		log.Fatalln("usage: sotpalbot [token]")
 	}
 
 	session, err := dgo.New("Bot " + os.Args[1])
 	if err != nil {
-		log.Fatalln("sotpal: invalid bot token")
+		log.Fatalln("sotpalbot: invalid bot token")
 	}
 
 	session.AddHandler(func(ss *dgo.Session, rd *dgo.Ready) {
-		log.Println("sotpal: bot session created")
+		log.Println("sotpalbot: bot session created")
 		for _, guild := range rd.Guilds {
 			if _, err := ss.ApplicationCommandBulkOverwrite(
 				ss.State.User.ID, guild.ID, commands); err != nil {
-				log.Fatalln("sotpal: unable to register commands")
+				log.Println(err)
+				log.Fatalln("sotpalbot: unable to register commands")
 			}
 		}
-		log.Println("sotpal: commands registered")
+		log.Println("sotpalbot: commands registered")
 	})
 	session.AddHandler(func(ss *dgo.Session, in *dgo.InteractionCreate) {
 		if handler, ok := handlers[in.ApplicationCommandData().Name]; ok {
@@ -37,7 +38,7 @@ func main() {
 	})
 
 	if err := session.Open(); err != nil {
-		log.Fatalln("sotpal: unable to create bot session")
+		log.Fatalln("sotpalbot: unable to create bot session")
 	}
 	defer session.Close()
 
@@ -46,5 +47,5 @@ func main() {
 	channel := make(chan os.Signal)
 	signal.Notify(channel, os.Interrupt)
 	<-channel
-	log.Println("sotpal: exiting")
+	log.Println("sotpalbot: exiting")
 }

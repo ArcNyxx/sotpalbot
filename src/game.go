@@ -21,31 +21,32 @@ func startcmd(ss *dgo.Session, in *dgo.InteractionCreate) {
 		return
 	}
 
-	var state State
+	var newstate State
 	for _, role := range roles {
 		if role.Name == "SOTPAL Trusted" {
-			state.TrustedRole = role.ID
-			if state.UntrustedRole != "" {
+			newstate.TrustedRole = role.ID
+			if newstate.UntrustedRole != "" {
 				break
 			}
 		} else if role.Name == "SOTPAL Untrusted" {
-			state.UntrustedRole = role.ID
-			if state.TrustedRole != "" {
+			newstate.UntrustedRole = role.ID
+			if newstate.TrustedRole != "" {
 				break
 			}
 		}
 	}
-	if state.TrustedRole == "" || state.UntrustedRole == "" {
+	if newstate.TrustedRole == "" || newstate.UntrustedRole == "" {
 		ss.InteractionRespond(in.Interaction, err(
 			"The required \"SOTPAL Trusted\" and \"SOTPAL " +
 			"Untrusted\" roles do not exist."))
 		return
 	}
 
-	if arrContains(state.TrustedRole, in.Member.Roles) == nil {
+	if arrContains(newstate.TrustedRole, in.Member.Roles) == nil {
 		ss.InteractionRespond(in.Interaction, &NonTrustedUser)
 	} else {
-		state.Submissions = make(map[string]string)
+		newstate.Submissions = make(map[string]string)
+		state[in.GuildID] = newstate
 		ss.InteractionRespond(in.Interaction, resp(
 			"<@" + in.Member.User.ID + "> has started a new " +
 			"game of SOTPAL!"))
